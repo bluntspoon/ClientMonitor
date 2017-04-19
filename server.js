@@ -14,14 +14,14 @@ var server = http.createServer(function (req, res) {
 	serve(req, res, done);
 });
 
-if (process.env.PORT === undefined) {
+/*if (process.env.PORT === undefined) {
 	port = 8089;
 	server.listen(port);
 }
-else {
+else {*/
 	port = 80;
-	server.listen(process.env.PORT);
-}
+	server.listen(port);
+//}
 me += ":" + port.toString() + "/";
 console.log("URL: ", me);
 // RUN THE BROWSER
