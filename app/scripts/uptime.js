@@ -188,7 +188,7 @@ function logLatency(name, latency) {
 }
 
 function logConnectionChange(name, value) {
-    $.post(postURL, {
+    $.post(postURL + "/connectionState", {
         servername: myname,
         connectionname: name,
         connectionstate: value
