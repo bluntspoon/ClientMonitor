@@ -51,6 +51,7 @@ function setupMonitor(name, targetDivName, url) {
     });
 
     connection.disconnected(function () {
+        logConnectionChange(name, "false");
         setTimeout(function () {
             connection.start();
         }, 5000); // Restart connection after 5 seconds.
@@ -65,6 +66,7 @@ function setupMonitor(name, targetDivName, url) {
 
     connection.stateChanged(function (change) {
         if (change.newState === $.signalR.connectionState.connected) {
+            logConnectionChange(name, "true");
             testLatency(connection, name);
         }
     });
@@ -182,6 +184,14 @@ function logLatency(name, latency) {
         servername: myname,
         connectionname: name,
         latency: latency
+    });
+}
+
+function logConnectionChange(name, value) {
+    $.post(postURL, {
+        servername: myname,
+        connectionname: name,
+        connectionstate: value
     });
 }
 
