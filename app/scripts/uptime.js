@@ -25,7 +25,6 @@ function setupLobbyMonitor() {
 function setupMonitor(name, targetDivName, url) {
     var connection = $.connection(url);
     connection.logging = true;
-    connection.start();
 
     connection.disconnected(function () {
         logConnectionChange(name, "false");
@@ -47,6 +46,7 @@ function setupMonitor(name, targetDivName, url) {
             testLatency(connection, name);
         }
     });
+    connection.start();
 }
 
 function isConnected(connection) {
@@ -68,7 +68,7 @@ function testLatency(connection, name) {
         });
     var timer = setTimeout(function () {
         testLatency(connection, name);
-    }, 60000);
+    }, 55000);
     connection.stateChanged(function (change) {
         if (change.newState !== $.signalR.connectionState.connected) {
             clearTimeout(timer);
