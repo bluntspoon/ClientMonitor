@@ -54,26 +54,33 @@ function isConnected(connection) {
 }
 
 function testLatency(connection, name) {
-    var startTime = new Date().getTime();
-    latencyTests[name] = {
-        startTime: startTime,
-        endTime: 0
+    if (latencyTests[name] && latencyTests[name][startTime] > 0) {
     }
-    $.connection.transports._logic.pingServer(connection, "")
-        .done(function () {
-            latencyResult(name);
-        })
-        .fail(function () {
-            latencyFail(name);
-        });
-    var timer = setTimeout(function () {
-        testLatency(connection, name);
-    }, 55000);
-    connection.stateChanged(function (change) {
-        if (change.newState !== $.signalR.connectionState.connected) {
-            clearTimeout(timer);
+    else {
+        var startTime = new Date().getTime();
+        latencyTests[name] = {
+            startTime: startTime,
+            endTime: 0
         }
-    });
+        $.connection.transports._logic.pingServer(connection, "")
+            .done(function () {
+                latencyResult(name);
+                latencyTests[name][startTime] = 0;
+            })
+            .fail(function () {
+                latencyFail(name);
+                latencyTests[name][startTime] = 0;
+            });
+        var timer = setTimeout(function () {
+            testLatency(connection, name);
+        }, 55000);
+        connection.stateChanged(function (change) {
+            if (change.newState !== $.signalR.connectionState.connected) {
+                latencyTests[name][startTime] = 0;
+                clearTimeout(timer);
+            }
+        });
+    }
 }
 
 function latencyResult(name) {
