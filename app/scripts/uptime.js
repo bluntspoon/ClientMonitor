@@ -3,7 +3,6 @@ var options = {
     hour: 'numeric', minute: 'numeric', second: 'numeric',
     hour12: false
 };
-var myname = "ukmon";
 var postURL = "http://clientdash.azurewebsites.net";
 
 var latencyTests = {};
@@ -48,6 +47,10 @@ function setupMonitor(name, targetDivName, url) {
             testLatency(connection, name);
         }
     });
+}
+
+function isConnected(connection) {
+
 }
 
 function testLatency(connection, name) {
