@@ -57,7 +57,7 @@ function testLatency(connection, name) {
     if (latencyTests[name] && latencyTests[name][startTime] > 0) {
     }
     else {
-        var startTime = new Date().getTime();
+        var startTime = Date.now();
         latencyTests[name] = {
             startTime: startTime,
             endTime: 0
@@ -84,15 +84,15 @@ function testLatency(connection, name) {
 }
 
 function latencyResult(name) {
-    var endTime = new Date().getTime();
+    var endTime = Date.now();
     latencyTests[name].endTime = endTime;
-    var latency = (latencyTests[name].endTime - latencyTests[name].startTime) / 2;
-    logLatency(name, latency);
+    if (latencyTests[name].endTime > latencyTests[name].startTime) {
+        var latency = (latencyTests[name].endTime - latencyTests[name].startTime) / 2;
+        logLatency(name, latency);
+    }
 }
 
 function latencyFail(name) {
-    var endTime = new Date().getTime();
-    latencyTests[name].endTime = endTime;
     var latency = 0;
     logLatency(name, latency);
 }
