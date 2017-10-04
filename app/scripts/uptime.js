@@ -8,6 +8,7 @@ var postURL = "http://clientdash.azurewebsites.net";
 var latencyTests = {};
 
 $(document).ready(function () {
+    console.log("Starting");
     setupRouterMonitor();
     setupLobbyMonitor();
 });
