@@ -7,7 +7,11 @@ var postURL = "http://clientdash.azurewebsites.net";
 
 var latencyTests = {};
 
-$(document).ready(function () {
+function domReady(callback) {
+    document.readyState === "interactive" || document.readyState === "complete" ? callback() : document.addEventListener("DOMContentLoaded", callback);
+};
+
+domReady(function () {
     console.log("Starting");
     loadScript("http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.2.1.min.js", setupConnections);
 });
