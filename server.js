@@ -30,6 +30,7 @@ function startMonitor() {
 	driver.create({ path: require('phantomjs').path, parameters: { 'web-security': 'false' } }, function (err, browser) {
 		return browser.createPage(function (err, page) {
 			var debugEnabled = true;
+			var networkDebugEnabled = false;
 			if (debugEnabled) {
 				page.onConsoleMessage = function (msg, lineNum, sourceId) {
 					console.log('CONSOLE: ' + msg);
@@ -43,6 +44,14 @@ function startMonitor() {
 						});
 					}
 					console.error(msgStack.join('\n'));
+				};
+			}
+			if (networkDebugEnabled) {
+				page.onResourceRequested = function (request) {
+					console.log('Request ' + JSON.stringify(request, undefined, 4));
+				};
+				page.onResourceReceived = function (response) {
+					console.log('Receive ' + JSON.stringify(response, undefined, 4));
 				};
 			}
 			return page.open(me, function (err, status) {

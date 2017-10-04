@@ -9,9 +9,14 @@ var latencyTests = {};
 
 $(document).ready(function () {
     console.log("Starting");
+    loadScript("http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.2.1.min.js", setupConnections);
+});
+
+function setupConnections() {
+    console.log("setupConnections");
     setupRouterMonitor();
     setupLobbyMonitor();
-});
+}
 
 function setupRouterMonitor() {
     var url = "https://mppgs1mobile.valueactive.eu/pokerBabelFish";
@@ -113,4 +118,27 @@ function logConnectionChange(name, value) {
         connectionname: name,
         connectionstate: value
     });
+}
+
+function loadScript(url, callback) {
+
+    var script = document.createElement("script")
+    script.type = "text/javascript";
+
+    if (script.readyState) {  //IE
+        script.onreadystatechange = function () {
+            if (script.readyState == "loaded" ||
+                script.readyState == "complete") {
+                script.onreadystatechange = null;
+                callback();
+            }
+        };
+    } else {  //Others
+        script.onload = function () {
+            callback();
+        };
+    }
+
+    script.src = url;
+    document.getElementsByTagName("head")[0].appendChild(script);
 }
