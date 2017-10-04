@@ -29,19 +29,22 @@ function startMonitor() {
 	var driver = require('node-phantom-simple');
 	driver.create({ path: require('phantomjs').path, parameters: { 'web-security': 'false' } }, function (err, browser) {
 		return browser.createPage(function (err, page) {
-			page.onConsoleMessage = function (msg, lineNum, sourceId) {
-				console.log('CONSOLE: ' + msg);
-			};
-			page.onError = function (msg, trace) {
-				var msgStack = ['ERROR: ' + msg];
-				if (trace && trace.length) {
-					msgStack.push('TRACE:');
-					trace.forEach(function (t) {
-						msgStack.push(' -> ' + t.file + ': ' + t.line + (t.function ? ' (in function "' + t.function + '")' : ''));
-					});
-				}
-				console.error(msgStack.join('\n'));
-			};
+			let debugEnabled = true;
+			if (debugEnabled) {
+				page.onConsoleMessage = function (msg, lineNum, sourceId) {
+					console.log('CONSOLE: ' + msg);
+				};
+				page.onError = function (msg, trace) {
+					var msgStack = ['ERROR: ' + msg];
+					if (trace && trace.length) {
+						msgStack.push('TRACE:');
+						trace.forEach(function (t) {
+							msgStack.push(' -> ' + t.file + ': ' + t.line + (t.function ? ' (in function "' + t.function + '")' : ''));
+						});
+					}
+					console.error(msgStack.join('\n'));
+				};
+			}
 			return page.open(me, function (err, status) {
 				if (err) {
 					console.log("Error:", err);
