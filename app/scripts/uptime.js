@@ -13,7 +13,7 @@ function domReady(callback) {
 
 domReady(function () {
     console.log("Starting");
-    loadScript("scripts\jquery.min.js?v=1.3", getSignalR);
+    loadScript("/scripts/jquery.min.js?v=1.3", getSignalR);
 });
 
 function getSignalR() {
