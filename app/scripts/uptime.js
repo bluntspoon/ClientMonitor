@@ -13,10 +13,11 @@ function domReady(callback) {
 
 domReady(function () {
     console.log("Starting");
-    loadScript("https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js", getSignalR);
+    loadScript("scripts\jquery.min.js?v=1.3", getSignalR);
 });
 
 function getSignalR() {
+    console.log("Got Jquery");
     loadScript("http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.2.1.min.js", setupConnections);
 }
 
