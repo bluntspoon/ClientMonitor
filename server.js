@@ -29,8 +29,8 @@ function startMonitor() {
 	var driver = require('node-phantom-simple');
 	driver.create({ path: require('phantomjs').path, parameters: { 'web-security': 'false' } }, function (err, browser) {
 		return browser.createPage(function (err, page) {
-			var debugEnabled = true;
-			var networkDebugEnabled = true;
+			var debugEnabled = false;
+			var networkDebugEnabled = false;
 			if (debugEnabled) {
 				page.onConsoleMessage = function (msg, lineNum, sourceId) {
 					console.log('CONSOLE: ' + msg);
