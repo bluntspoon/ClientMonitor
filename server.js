@@ -19,8 +19,8 @@ var server = http.createServer(function (req, res) {
 	server.listen(port);
 }
 else {*/
-	port = 80;
-	server.listen(port);
+port = 80;
+server.listen(port);
 //}
 me += ":" + port.toString() + "/";
 console.log("URL: ", me);
@@ -30,6 +30,9 @@ function startMonitor() {
 	driver.create({ path: require('phantomjs').path, parameters: { 'web-security': 'false' } }, function (err, browser) {
 		return browser.createPage(function (err, page) {
 			return page.open(me, function (err, status) {
+				if (err) {
+					console.log("Error:", err);
+				}
 				console.log("opened site? ", status);
 				setTimeout(function () {
 					browser.exit();

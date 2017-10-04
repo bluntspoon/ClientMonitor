@@ -32,6 +32,12 @@ function setupMonitor(name, targetDivName, url) {
         }, 5000); // Restart connection after 5 seconds.
     });
 
+    connection.error(function () {
+        setTimeout(function () {
+            connection.start();
+        }, 5000); // Restart connection after 5 seconds.
+    });
+
     connection.stateChanged(function (change) {
         if (change.newState === $.signalR.connectionState.connected) {
             logConnectionChange(name, "true");
